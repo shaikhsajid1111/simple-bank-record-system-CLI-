@@ -100,6 +100,10 @@ void Bank_account::enter_data(){
 		else{
 			balance = temp_balance;
 		}
-		cout << "Name : " << f_name + l_name << "\n" << "account number : " << account_number << "\n" << "Account type : " << account_type << "\n" << "Balance :" << balance <<"\n" <<endl;
+		fstream data_file;
+		data_file.open("data.txt", std::ios_base::app);
+		data_file << "Name : " << f_name +"\t"+ l_name << "\t" << "account number : " << account_number << "\t" << "Account type : " << account_type << "\t" << "Balance :" << balance <<"\t" <<endl;
+		data_file.close();
+		cout << "Data saved successfully!";
 	}
 }
