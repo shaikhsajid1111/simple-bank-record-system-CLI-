@@ -1,6 +1,6 @@
 this project is still under development
 features added:
-1) Enter Data and display
+1) Enter Data and write into txt file
 
 features needed to add:
 1) Show/List Data:
