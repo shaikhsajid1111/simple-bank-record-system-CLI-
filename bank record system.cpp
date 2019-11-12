@@ -10,7 +10,7 @@ public:
 	bool account_exist(char *search);
 	void enter_data();
 	void search_account_number();	
-
+	void display_record();
 };
 int length_function(int number);
 
@@ -18,7 +18,8 @@ int length_function(int number);
 int main(int argc, char const *argv[])
 {
 	Bank_account customer;
-	customer.enter_data();
+	customer.display_record();
+	//customer.enter_data();
 	system("pause");
 	return 0;
 }
@@ -191,4 +192,27 @@ void Bank_account::search_account_number(){
 		}
 
 	}
+}
+
+void Bank_account::display_record(){
+		ifstream data_file;
+		data_file.open("data.txt");
+		string line;
+		int counter = 0;
+		if(data_file.is_open()){
+
+			while(!data_file.eof()){
+				counter++;
+				getline(data_file,line);
+				if(line == ""){
+					break;
+				}
+				cout <<counter << ")" << line << endl;
+				
+			}
+		}
+		else if(data_file.fail()){
+			cout << "Data File does not exists!\n";
+		}
+
 }
