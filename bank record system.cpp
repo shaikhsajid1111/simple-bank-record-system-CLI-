@@ -11,6 +11,7 @@ public:
 	void enter_data();
 	void search_account_number();	
 	void display_record();
+	void update_data();
 };
 int length_function(int number);
 
@@ -18,8 +19,10 @@ int length_function(int number);
 int main(int argc, char const *argv[])
 {
 	Bank_account customer;
-	customer.display_record();
+	//customer.display_record();
 	//customer.enter_data();
+	//customer.search_account_number();
+	customer.update_data();
 	system("pause");
 	return 0;
 }
@@ -214,5 +217,55 @@ void Bank_account::display_record(){
 		else if(data_file.fail()){
 			cout << "Data File does not exists!\n";
 		}
-
 }
+
+void Bank_account::update_data(){
+	fstream data_file;
+	data_file.open("data.txt");
+	//if file is not found
+	if(data_file.fail()){
+		cout << "Data doesn't exists!";
+	}
+	
+	//user input
+	while(true){
+	ACCOUNT:
+	int search_account;
+	cout << "Enter Account Number : "<< endl;
+	cin >> search_account;
+	if(cin.fail()){
+		cout << "Invalid Input\n";
+		cin.clear();
+		cin.ignore(100,'\n');
+		goto ACCOUNT;
+	}
+	int length_of_account_number = length_function(search_account);
+	if(length_of_account_number < 8 || length_of_account_number > 10){
+		cout << "Account number cannot be of " << length_of_account_number << " digits!";
+		goto ACCOUNT;
+	}
+	
+	int offset;
+	string line;
+	
+	char search[10];
+	
+	itoa(search_account,search,10);
+	string current_line;
+	
+	
+	while(!data_file.eof()){
+		getline(data_file,line);
+		if((offset = line.find(search, 0)) != string::npos){
+			cout << "found!\n";
+			current_line = line;
+			cout << "the line is " << current_line<<endl; 
+			 }
+			 data_file.close();
+		}
+	
+	}
+
+	
+	}	
+
