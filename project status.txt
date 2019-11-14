@@ -4,9 +4,11 @@ features added:
 2) search data whether if if exists in txt file
 3) display all records in txt file
 4) Edit Record
-features needed to add:
+5)Delete Record:
+
+need to:
+Fix Minor Bugs
 
 
 
-3)Delete Record:
-First of all, when the function of this feature is executed, it shows all the records in the file, and the user can enter the record number to delete. If the record was not found, this banking record system project in C++ displays the message – “Error in opening! File Not Found!!”
+
