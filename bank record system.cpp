@@ -12,7 +12,7 @@ public:
 	void enter_data();
 	void search_account_number();	
 	void display_record();
-	void edit_rec();
+	//void edit_rec();
 	void update_data();
 	void delete_record();
 
@@ -86,7 +86,7 @@ bool Bank_account::account_exist(string search){
             getline(Myfile,line);
             if ((offset = line.find(search, 0)) != string::npos) 
             {
-            //* cout << "found '" << search << " \n\n"<< line  <<endl;*/
+             cout << "found '" << search << " \n\n"<< line  <<endl;
              return true;
             }
         }
@@ -99,7 +99,7 @@ bool Bank_account::account_exist(string search){
 }
 void Bank_account::enter_data(){
 	
-	while (true){
+	
 		string f_name,l_name;
 		START:
 		cout << "Enter Account Holder's First Name : "<< endl;
@@ -197,7 +197,6 @@ void Bank_account::enter_data(){
 		cout << "Data saved successfully!";
 
 }
-}
 void Bank_account::search_account_number(){
 	
 		unsigned long int account_number,temp;
@@ -225,22 +224,13 @@ void Bank_account::search_account_number(){
 		char search[10];
 		
 		itoa(account_number,search,10);
-		
-		data_file.open("data.txt");
-		if(data_file.is_open()){
-			while(!data_file.eof()){
-				getline(data_file,line);
-				 if((offset = line.find(search, 0)) != string::npos){
-				 	cout << "found!\n";
-				 	cout << line << endl;
-				 }
-				 data_file.close();
-			}
-		}
-		else{
+		account_exist(search);
+//		data_file.open("data.txt");
+
+		/*else{
 			cout << "Could not open file!";
 			
-		}
+		}*/
 
 	}
 void Bank_account::display_record(){
@@ -452,7 +442,7 @@ void Bank_account::delete_record(){
 			stod(account_search);
 		}
 		catch(invalid_argument &ex){
-			cout << "Enter numbers only!";
+			cout << "Enter numbers only!\n";
 			goto ACCOUNT;
 		}
 	int length_of_account_number = strlen(account_search.c_str());
@@ -481,7 +471,7 @@ void Bank_account::delete_record(){
 	 					cout << "Failed to open data file!\n";
 	 }
 	 				data_file << data;
-	 				cout << "Account Deleted Successfully!";
+	 				cout << "Account Deleted Successfully!\n";
 				 }		 
 				}
 			}
