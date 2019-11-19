@@ -412,10 +412,15 @@ void Bank_account::delete_record(){
 	 				if(data_file.fail()){
 	 					cout << "Failed to open data file!\n";
 	 }
+<<<<<<< HEAD
 
 	 				data_file << data;
 	 				cout << "Account Deleted Successfully!\n";
 	 				data_file.close();
+=======
+	 				data_file << data;
+	 				cout << "Account Deleted Successfully!\n";
+>>>>>>> 455dfac212fe0db5b878a753be0cc4b44f93b195
 				 }		 
 				}
 			}
