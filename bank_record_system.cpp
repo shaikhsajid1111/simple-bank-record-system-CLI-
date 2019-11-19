@@ -13,6 +13,7 @@ public:
 	void search_account_number();	
 	void display_record();
 	void update_data();
+	/*vs code   */
 	void delete_record();
 
 };
@@ -23,9 +24,10 @@ int main(int argc, char const *argv[])
 {
 	Bank_account customer;
 	//customer.display_record();
-	//customer.enter_data();
+	customer.enter_data();
 	//customer.search_account_number();
-	customer.update_data();
+	//customer.update_data();
+	/*changes from VS code*/
 	//customer.delete_record();
 	system("pause");
 	return 0;
@@ -412,15 +414,12 @@ void Bank_account::delete_record(){
 	 				if(data_file.fail()){
 	 					cout << "Failed to open data file!\n";
 	 }
-<<<<<<< HEAD
 
 	 				data_file << data;
 	 				cout << "Account Deleted Successfully!\n";
 	 				data_file.close();
-=======
 	 				data_file << data;
 	 				cout << "Account Deleted Successfully!\n";
->>>>>>> 455dfac212fe0db5b878a753be0cc4b44f93b195
 				 }		 
 				}
 			}
