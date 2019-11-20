@@ -8,5 +8,5 @@ Features:
 2) search data whether if it exists in txt file
 3) display all records in txt file
 4) Edit Record
-5) Exception Handlings
-5)Delete Record:
+5) Exception Handling
+6)Delete Record:
