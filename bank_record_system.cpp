@@ -8,31 +8,71 @@ using namespace std;
 
 class Bank_account{
 public:
+	/*function declaration*/
 	bool account_exist(string search);
 	void enter_data();
 	void search_account_number();	
 	void display_record();
 	void update_data();
-	/*vs code   */
 	void delete_record();
 
 };
+/*function prototype declaration*/
 int length_function(int number);
 string replace_str(string s, string oldVal, const string newVal);
+
 /*main function*/
 int main(int argc, char const *argv[])
 {
 	Bank_account customer;
-	//customer.display_record();
-	customer.enter_data();
-	//customer.search_account_number();
-	//customer.update_data();
-	/*changes from VS code*/
-	//customer.delete_record();
+
+	cout << "Enter 1 for Enter Data\nEnter 2 for Search your account Number\n";
+	cout << "Enter 3 for display all records: \nEnter 4 for update your records\n";
+	
+	PROMPT:
+	
+	int response;
+	cout << "Enter Number what you wanna do: \n";
+	cin >> response;
+	
+	if(cin.fail() || response > 4){
+		cout << "Invalid Input\n";
+		cin.clear();
+		cin.ignore(100,'\n');
+		goto PROMPT;
+	}
+	switch(response){
+		case 1:
+		customer.enter_data();
+		break;
+		case 2:	
+		customer.search_account_number();
+		break;
+		case 3:
+		customer.display_record();
+		break;
+		case 4:
+		customer.update_data();
+		break;
+
+	}
+
+	int answer;
+	if(cin.fail()){
+		cin.clear();
+		cin.ignore(100,'\n');
+		cout << "Exiting";
+		exit(1);
+	}
+	cout << "\nEnter 1 to repeat the procedure or enter any key to exit!\n";
+	cin >> answer;
+	if(answer == 1){
+		goto PROMPT;
+	}
 	system("pause");
 	return 0;
 }
-/******************length function **********************************************/
+/****length function *****/
 int length_function(int number){
 	int counter = 0;
 	while(number){
@@ -94,7 +134,7 @@ bool Bank_account::account_exist(string search){
         Myfile.close();
     }
     else
-    cout<<"Unable to open this file.\n"<<endl;
+    cout<<"Data file is not created yet!\n"<<endl;
     return false;
 
 }
@@ -115,7 +155,7 @@ void Bank_account::enter_data(){
 			cout << "Invalid Input\n";
 		}
 		
-		//*account number cannot be negative*/ 
+		 
 		string account_number;	
 
 		ACCOUNT:
@@ -135,9 +175,6 @@ void Bank_account::enter_data(){
 			cout << "Enter numbers only!";
 			goto ACCOUNT;
 		}
-		
-		//*char search[10];*/
-		//*itoa(temp_account,search,10);*/
 		if(account_exist(account_number)){
 			cout << "Account already exist!\nHence your entered data will be cleared!";
 			cout << "Enter data \n";
@@ -249,7 +286,7 @@ void Bank_account::update_data(){
 	file_content << data_file.rdbuf();
 	string data = file_content.str();
 	data_file.close();
-	//*data_file.open("data.txt", ios::out | ios::trunc);*/
+	
 	/*account number inpus and exception handling*/
 	ACCOUNT_SEARCH:
 	string account_number_search;
@@ -267,18 +304,14 @@ void Bank_account::update_data(){
 			goto ACCOUNT_SEARCH;
 		}
 	
-	//char search[10];
-	//itoa(account_number_search,search,10);
+	
 		/*account number inpus and exception handling*/
 		if(account_exist(account_number_search)){
 			cout << "Account number exist!";
 		}
 
-
-
 		int offset;
 		string line,new_line;
-		//ifstream ;
 
 		data_file.open("data.txt");
 		if(data_file.is_open()){
@@ -289,7 +322,7 @@ void Bank_account::update_data(){
 
 					cout << "Enter new Data\n";
 					data_file.close();
-					/**/
+					/*update operation*/
 
 		string f_name,l_name;
 		START:
@@ -343,7 +376,6 @@ void Bank_account::update_data(){
 			cout << "Enter numbers only! \n";
 			goto BALANCE;
 		}
-		//balance = temp_balance;
 		/*changes to the file*/
 	 new_line = f_name + "|" + l_name + "|" + account_number_search + "|" + account_type + "|" + balance;
 	 string new_data = replace_str(data,line,new_line);
@@ -404,11 +436,11 @@ void Bank_account::delete_record(){
 	while(!data_file.eof()){
 				getline(data_file,line);
 				 if((offset = line.find(account_search, 0)) != string::npos){
-				 	//cout << line << endl;
+				 	
 				 	int end = strlen(line.c_str()) + 1;
 				 	int start = data.find(line);
 				 	data_file.close();
-				 	//cout << data << endl;
+				 	
 				 	data.erase(start,end);
 					data_file.open("data.txt", ios::out | ios::trunc);
 	 				if(data_file.fail()){
@@ -423,3 +455,4 @@ void Bank_account::delete_record(){
 				 }		 
 				}
 			}
+/*author : shaikh sajid*/
