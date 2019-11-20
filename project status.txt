@@ -7,8 +7,7 @@ features added:
 5) Exception Handlings
 5)Delete Record:
 
-need to:
-Fix Minor Bugs
+Fixed Minor Bugs
 
 
 
