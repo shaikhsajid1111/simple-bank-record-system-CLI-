@@ -1,4 +1,5 @@
 # simple-bank-record-system-CLI-
-![](screenshot.png)
+![](screenshot.PNG)
 
-Create, read, update and delete bank record
+This program lets you maintain simple bank records in txt file
+
