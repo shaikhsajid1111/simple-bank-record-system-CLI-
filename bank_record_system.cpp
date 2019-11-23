@@ -6,9 +6,10 @@
 #include<sstream>
 using namespace std;
 
+/*class for all related bank functions*/
 class Bank_account{
 public:
-	/*function declaration*/
+	/*function prototype declaration*/
 	bool account_exist(string search);
 	void enter_data();
 	void search_account_number();	
@@ -18,13 +19,12 @@ public:
 
 };
 /*function prototype declaration*/
-int length_function(int number);
-string replace_str(string s, string oldVal, const string newVal);
+string replace_str(string s, string oldVal, const string newVal); /*function for replacing strings*/
 
 /*main function*/
 int main(int argc, char const *argv[])
 {
-	Bank_account customer;
+	Bank_account customer;		/*Bank account object*/
 
 	cout << "Enter 1 for Enter Data\nEnter 2 for Search your account Number\n";
 	cout << "Enter 3 for display all records: \nEnter 4 for update your records\n";
@@ -34,30 +34,37 @@ int main(int argc, char const *argv[])
 	int response;
 	cout << "Enter Number what you wanna do: \n";
 	cin >> response;
-	
+	/*exception handling*/
+	/*if user enters char values or user enters value that is out of commands*/
 	if(cin.fail() || response > 4){
 		cout << "Invalid Input\n";
 		cin.clear();
 		cin.ignore(100,'\n');
 		goto PROMPT;
 	}
+	
 	switch(response){
+		/*cases*/
 		case 1:
 		customer.enter_data();
 		break;
+			
 		case 2:	
 		customer.search_account_number();
 		break;
+			
 		case 3:
 		customer.display_record();
 		break;
+			
 		case 4:
 		customer.update_data();
 		break;
 
 	}
-
+	/*asking, whether code has to be run again*/
 	int answer;
+	/*exception handling*/
 	if(cin.fail()){
 		cin.clear();
 		cin.ignore(100,'\n');
@@ -66,20 +73,12 @@ int main(int argc, char const *argv[])
 	}
 	cout << "\nEnter 1 to repeat the procedure or enter any key to exit!\n";
 	cin >> answer;
-	if(answer == 1){
-		goto PROMPT;
+	/*if user wants to execute code again, code jumps to 'PROMPT'*/
+	if(answer == 1){	
+		goto PROMPT;  
 	}
 	system("pause");
 	return 0;
-}
-/****length function *****/
-int length_function(int number){
-	int counter = 0;
-	while(number){
-		number = number / 10;
-		counter++;
-	}
-	return (counter);
 }
 string replace_str(string s, string oldVal, const string newVal) 
 /* replace oldVal with newVal in s*/
@@ -113,16 +112,17 @@ string replace_str(string s, string oldVal, const string newVal)
 
 
 /************************outside function above************************/
+/*check whether the string exist in the data*/
 bool Bank_account::account_exist(string search){
 
-	int offset; 
+    int offset; 
     string line;
-    ifstream Myfile;
+    ifstream Myfile;			/*file open*/
     Myfile.open ("data.txt");
 
     if(Myfile.is_open())
     {
-        while(!Myfile.eof())
+        while(!Myfile.eof())		/*while reading cursor does not reaches end of file*/
         {
             getline(Myfile,line);
             if ((offset = line.find(search, 0)) != string::npos) 
@@ -139,26 +139,28 @@ bool Bank_account::account_exist(string search){
 
 }
 void Bank_account::enter_data(){
-
-		string f_name,l_name;
+		
+		string f_name,l_name;	/*first name and last name*/
 		
 		START:
 		cout << "Enter Account Holder's First Name : "<< endl;
 		cin >> l_name;
+	/*exception handling*/
 		if(cin.fail()){
 			cout << "Invalid Input\n";
 		}
 
 		cout << "Enter Account Holder's Last Name: "<<endl;
 		cin >> f_name;
+		
 		if(cin.fail()){
 			cout << "Invalid Input\n";
 		}
 		
-		 
+		/*account number variable*/ 
 		string account_number;	
 
-		ACCOUNT:
+		ACCOUNT:			/*jump statement GOTO*/
 		cout << "Enter Account Number for " << f_name + " " + l_name << endl;
 		cin >> account_number;
 		
@@ -168,6 +170,7 @@ void Bank_account::enter_data(){
 			cin.ignore(100,'\n');
 			goto ACCOUNT;
 		}
+		/*checking whether the input is number or not*/
 		try{
 			stod(account_number);
 		}
@@ -175,13 +178,15 @@ void Bank_account::enter_data(){
 			cout << "Enter numbers only!";
 			goto ACCOUNT;
 		}
+		/*if account number already exist, it'll clear all previous inputs*/
 		if(account_exist(account_number)){
 			cout << "Account already exist!\nHence your entered data will be cleared!";
 			cout << "Enter data \n";
-			goto START;
+			goto START;	
 		}
 		
-		int length_of_account_number = strlen(account_number.c_str());
+		int length_of_account_number = strlen(account_number.c_str()); /*checking length of account number */
+		/*if account number is shorter than 8 or greater than 10*/
 		if(length_of_account_number < 8 || length_of_account_number > 10){
 			cout << "Account Number Cannot be Shorter than 8 digits or greater than 10! \n";
 			goto ACCOUNT;
@@ -191,7 +196,9 @@ void Bank_account::enter_data(){
 
 		ACCOUNT_TYPE:
 		cout << "Account type : ('s' for saving and 'c' for current) : \n";
+		/*account type*/
 		cin >> account_type;
+	
 		if(cin.fail()){
 			cout << "Enter Character!\n";
 			goto ACCOUNT_TYPE;
@@ -225,7 +232,7 @@ void Bank_account::enter_data(){
 			goto BALANCE;
 		}
 		fstream data_file;
-		data_file.open("data.txt", std::ios_base::app);
+		data_file.open("data.txt", std::ios_base::app); /*open data file in append mode*/
 		data_file << f_name << "|" << l_name << "|" << account_number << "|" << account_type << "|" << balance << endl;
 		data_file.close();
 		cout << "Data saved successfully!";
