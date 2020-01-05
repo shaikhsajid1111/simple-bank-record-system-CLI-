@@ -1,5 +1,5 @@
-#include<iostream>
-#include<fstream>
+#include<iostream>		/*default library*/
+#include<fstream>		
 #include<cstdlib>
 #include<cstring>
 #include<cctype>
@@ -8,14 +8,19 @@ using namespace std;
 
 /*class for all related bank functions*/
 class Bank_account{
+	/*private variables*/
+	string f_name,l_name;
+	string account_number;
+	string account_type;
+	string balance;
 public:
 	/*function prototype declaration*/
-	bool account_exist(string search);
-	void enter_data();
-	void search_account_number();	
-	void display_record();
-	void update_data();
-	void delete_record();
+	bool account_exist(string search);	/*Whether account number exists in data*/
+	void enter_data();						/*for entering data in txt file*/
+	void search_account_number();				/*for searching account number in data.txt file*/
+	void display_record();				/*to display all records in data file*/
+	void update_data();				/*to update content of data.txt file*/
+	void delete_record();		/*to delete record from file*/
 
 };
 /*function prototype declaration*/
@@ -26,17 +31,19 @@ int main(int argc, char const *argv[])
 {
 	Bank_account customer;		/*Bank account object*/
 
+	/*prompting for options*/
 	cout << "Enter 1 for Enter Data\nEnter 2 for Search your account Number\n";
-	cout << "Enter 3 for display all records: \nEnter 4 for update your records\n";
+	cout << "Enter 3 for display all records: \nEnter 4 for update your records\nEnter 5 for delete \n";
 	
+	/*label for jumping again*/
 	PROMPT:
 	
-	int response;
+	int response;			/*takes response in integer*/
 	cout << "Enter Number what you wanna do: \n";
 	cin >> response;
 	/*exception handling*/
 	/*if user enters char values or user enters value that is out of commands*/
-	if(cin.fail() || response > 4){
+	if(cin.fail() || response > 5){
 		cout << "Invalid Input\n";
 		cin.clear();
 		cin.ignore(100,'\n');
@@ -61,6 +68,10 @@ int main(int argc, char const *argv[])
 		customer.update_data();
 		break;
 
+		case 5:
+		customer.delete_record();
+		break;
+
 	}
 	/*asking, whether code has to be run again*/
 	int answer;
@@ -71,6 +82,7 @@ int main(int argc, char const *argv[])
 		cout << "Exiting";
 		exit(1);
 	}
+	/*asking after operation is complete*/
 	cout << "\nEnter 1 to repeat the procedure or enter any key to exit!\n";
 	cin >> answer;
 	/*if user wants to execute code again, code jumps to 'PROMPT'*/
@@ -140,40 +152,42 @@ bool Bank_account::account_exist(string search){
 }
 void Bank_account::enter_data(){
 		
-		string f_name,l_name;	/*first name and last name*/
-		
+		/*string f_name,l_name;*/	     
+		/*first name and last name input*/
+		/*starts label*/
 		START:
 		cout << "Enter Account Holder's First Name : "<< endl;
 		cin >> l_name;
-	/*exception handling*/
+		/*exception handling*/
 		if(cin.fail()){
 			cout << "Invalid Input\n";
 		}
-
+		/*prompts for first name*/
 		cout << "Enter Account Holder's Last Name: "<<endl;
 		cin >> f_name;
-		
+		/*exception handling*/
 		if(cin.fail()){
 			cout << "Invalid Input\n";
 		}
 		
 		/*account number variable*/ 
-		string account_number;	
+		/*string account_number;*/	
 
 		ACCOUNT:			/*jump statement GOTO*/
 		cout << "Enter Account Number for " << f_name + " " + l_name << endl;
 		cin >> account_number;
-		
+		/*exception handling*/
 		if(cin.fail()){
-			cout << "Invalid Input\n";
-			cin.clear();
-			cin.ignore(100,'\n');
+			cout << "Invalid Input\n";		/*showing error*/
+			cin.clear();						/*clearing cin*/
+			cin.ignore(100,'\n');			
 			goto ACCOUNT;
 		}
 		/*checking whether the input is number or not*/
 		try{
 			stod(account_number);
 		}
+		/*if input is not number*/
 		catch(invalid_argument &ex){
 			cout << "Enter numbers only!";
 			goto ACCOUNT;
@@ -192,7 +206,7 @@ void Bank_account::enter_data(){
 			goto ACCOUNT;
 		}
 		/*account type*/
-		string account_type;
+		//string account_type;
 
 		ACCOUNT_TYPE:
 		cout << "Account type : ('s' for saving and 'c' for current) : \n";
@@ -214,7 +228,7 @@ void Bank_account::enter_data(){
 			goto ACCOUNT_TYPE;
 		}
 		/*balance*/
-		string balance;
+		/*string balance;*/
 		BALANCE:
 		cout << "Enter Balance: \n";
 		cin >> balance;
@@ -224,18 +238,21 @@ void Bank_account::enter_data(){
 			cin.ignore(100,'\n');
 			goto BALANCE;
 		}
+		/*trying to convert balance to number*/
 		try{
 			stod(balance);
 		}
+		/*if balance is not a number*/
 		catch(invalid_argument &ex){
 			cout << "Enter numbers only! \n";
 			goto BALANCE;
 		}
+		/*opening data.txt as data_file*/
 		fstream data_file;
 		data_file.open("data.txt", std::ios_base::app); /*open data file in append mode*/
 		data_file << f_name << "|" << l_name << "|" << account_number << "|" << account_type << "|" << balance << endl;
-		data_file.close();
-		cout << "Data saved successfully!";
+		data_file.close();				/*file close*/
+		cout << "Data saved successfully!";			/*if data is entered, prompt*/
 
 }
 void Bank_account::search_account_number(){
@@ -258,25 +275,30 @@ void Bank_account::search_account_number(){
 		
 		if(account_exist(account_number)){
 			cout << "Account Number : " << account_number << "Exist!\n";
-		};
+		}
+		if(!account_exist(account_number)){
+			cout << "Does not exist!";
+		}
 	}
 void Bank_account::display_record(){
+		/*opening file*/
 		ifstream data_file;
 		data_file.open("data.txt");
-		string line;
+		string line;        	/*line for iteration over tha data lines*/
 		int counter = 0;
 		if(data_file.is_open()){
-
+				/*while data file does not reach end of file*/
 			while(!data_file.eof()){
 				counter++;
 				getline(data_file,line);
-				if(line == ""){
+				if(line == ""){				
 					break;
 				}
 				cout <<counter << ")" << line << endl;
 				
 			}
 		}
+		/*if file is not there*/
 		else if(data_file.fail()){
 			cout << "Data File does not exists!\n";
 		}
@@ -331,7 +353,7 @@ void Bank_account::update_data(){
 					data_file.close();
 					/*update operation*/
 
-		string f_name,l_name;
+		//string f_name,l_name;
 		START:
 		cout << "Enter Account Holder's First Name : "<< endl;
 		cin >> f_name;
@@ -346,7 +368,7 @@ void Bank_account::update_data(){
 		}
 
 		/*account type*/
-		string account_type;
+		//string account_type;
 
 		ACCOUNT_TYPE:
 		cout << "Account type : ('s' for saving and 'c' for current) : \n";
@@ -366,7 +388,7 @@ void Bank_account::update_data(){
 			goto ACCOUNT_TYPE;
 		}
 		/*balance*/
-		string balance;
+		//string balance;
 		BALANCE:
 		cout << "Enter Balance: \n";
 		cin >> balance;
@@ -398,9 +420,11 @@ void Bank_account::update_data(){
 	}	
 }
 void Bank_account::delete_record(){
+	/*decalring variable for opening file */
 	fstream data_file;
-	
 	data_file.open("data.txt");
+
+	/*if file does not exist*/
 	if(data_file.fail()){
 		cout << "Error While opening file";
 
@@ -444,21 +468,21 @@ void Bank_account::delete_record(){
 				getline(data_file,line);
 				 if((offset = line.find(account_search, 0)) != string::npos){
 				 	
-				 	int end = strlen(line.c_str()) + 1;
-				 	int start = data.find(line);
-				 	data_file.close();
+				 	int end = strlen(line.c_str()) + 1;			/*last index of content to be find*/
+				 	int start = data.find(line);			/*start index of content to be find*/
+				 	data_file.close();					/*closing the file*/
 				 	
-				 	data.erase(start,end);
+				 	data.erase(start,end);				/*erasing data from start to end*/
 					data_file.open("data.txt", ios::out | ios::trunc);
 	 				if(data_file.fail()){
 	 					cout << "Failed to open data file!\n";
 	 }
 
-	 				data_file << data;
+	 				data_file << data;				/*again rewriting the content in data.txt file*/
 	 				cout << "Account Deleted Successfully!\n";
-	 				data_file.close();
-	 				data_file << data;
-	 				cout << "Account Deleted Successfully!\n";
+	 				data_file.close();				
+	 				//data_file << data;
+	 				//cout << "Account Deleted Successfully!\n";
 				 }		 
 				}
 			}
